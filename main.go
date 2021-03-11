@@ -8,8 +8,8 @@ import (
 )
 
 type FormValues struct {
-	files  []File
-	values map[string]string
+	Files  []File
+	Values map[string]string
 }
 
 type File struct {
@@ -44,23 +44,15 @@ func ParseMultipart(r *http.Request) (FormValues, error) {
 			file,
 		}
 
-		fvs.files = append(fvs.files, f)
+		fvs.Files = append(fvs.Files, f)
 	}
 	for key := range values {
 		data[key] = r.FormValue(key)
 	}
 
-	fvs.values = data
+	fvs.Values = data
 
 	return fvs, nil
-}
-
-func (fv *FormValues) Files() []File {
-	return fv.files
-}
-
-func (fv *FormValues) Values() map[string]string {
-	return fv.values
 }
 
 func (f *File) Header() textproto.MIMEHeader {
